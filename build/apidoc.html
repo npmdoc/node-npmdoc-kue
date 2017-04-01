@@ -1,0 +1,2092 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+        href="http://automattic.github.io/kue/"
+
+    >kue (v0.11.5)</a>
+</h1>
+<h4>Feature rich priority job queue backed by redis</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.kue">module kue</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job">
+            function <span class="apidocSignatureSpan">kue.</span>Job
+            <span class="apidocSignatureSpan">( type, data )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.createQueue">
+            function <span class="apidocSignatureSpan">kue.</span>createQueue
+            <span class="apidocSignatureSpan">( options )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">kue.</span>Job.prototype</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">kue.</span>redis</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">kue.</span>workers</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">string <span class="apidocSignatureSpan">kue.</span>version</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.kue.Job">module kue.Job</a><ol>
+
+        <li>
+
+            <span class="apidocSignatureSpan">boolean <span class="apidocSignatureSpan">kue.Job.</span>disableSearch</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">boolean <span class="apidocSignatureSpan">kue.Job.</span>jobEvents</span>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.Job">
+            function <span class="apidocSignatureSpan">kue.</span>Job
+            <span class="apidocSignatureSpan">( type, data )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.get">
+            function <span class="apidocSignatureSpan">kue.Job.</span>get
+            <span class="apidocSignatureSpan">( id, jobType, fn )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.log">
+            function <span class="apidocSignatureSpan">kue.Job.</span>log
+            <span class="apidocSignatureSpan">( id, fn )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.range">
+            function <span class="apidocSignatureSpan">kue.Job.</span>range
+            <span class="apidocSignatureSpan">( from, to, order, fn )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.rangeByState">
+            function <span class="apidocSignatureSpan">kue.Job.</span>rangeByState
+            <span class="apidocSignatureSpan">( state, from, to, order, fn )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.rangeByType">
+            function <span class="apidocSignatureSpan">kue.Job.</span>rangeByType
+            <span class="apidocSignatureSpan">( type, state, from, to, order, fn )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.remove">
+            function <span class="apidocSignatureSpan">kue.Job.</span>remove
+            <span class="apidocSignatureSpan">( id, fn )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.removeBadJob">
+            function <span class="apidocSignatureSpan">kue.Job.</span>removeBadJob
+            <span class="apidocSignatureSpan">( id, jobType)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">kue.Job.</span>priorities</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.kue.Job.prototype">module kue.Job.prototype</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype._getBackoffImpl">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>_getBackoffImpl
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.active">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>active
+            <span class="apidocSignatureSpan">( clbk )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.attempt">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>attempt
+            <span class="apidocSignatureSpan">( fn )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.attempts">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>attempts
+            <span class="apidocSignatureSpan">( n )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.backoff">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>backoff
+            <span class="apidocSignatureSpan">( param )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.complete">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>complete
+            <span class="apidocSignatureSpan">( clbk )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.delay">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>delay
+            <span class="apidocSignatureSpan">( ms )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.delayed">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>delayed
+            <span class="apidocSignatureSpan">( clbk )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.error">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>error
+            <span class="apidocSignatureSpan">( err )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.events">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>events
+            <span class="apidocSignatureSpan">(events)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.failed">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>failed
+            <span class="apidocSignatureSpan">( clbk )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.failedAttempt">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>failedAttempt
+            <span class="apidocSignatureSpan">( theErr, fn )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.get">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>get
+            <span class="apidocSignatureSpan">( key, fn )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.inactive">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>inactive
+            <span class="apidocSignatureSpan">( clbk )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.log">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>log
+            <span class="apidocSignatureSpan">( str )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.priority">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>priority
+            <span class="apidocSignatureSpan">( level )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.progress">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>progress
+            <span class="apidocSignatureSpan">( complete, total, data )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.reattempt">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>reattempt
+            <span class="apidocSignatureSpan">( attempts, clbk )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.refreshTtl">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>refreshTtl
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.remove">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>remove
+            <span class="apidocSignatureSpan">( fn )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.removeOnComplete">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>removeOnComplete
+            <span class="apidocSignatureSpan">( param )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.save">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>save
+            <span class="apidocSignatureSpan">( fn )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.searchKeys">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>searchKeys
+            <span class="apidocSignatureSpan">( keys )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.set">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>set
+            <span class="apidocSignatureSpan">( key, val, fn )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.state">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>state
+            <span class="apidocSignatureSpan">( state, fn )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.subscribe">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>subscribe
+            <span class="apidocSignatureSpan">( callback )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.toJSON">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>toJSON
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.ttl">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>ttl
+            <span class="apidocSignatureSpan">( param )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.Job.prototype.update">
+            function <span class="apidocSignatureSpan">kue.Job.prototype.</span>update
+            <span class="apidocSignatureSpan">( fn )</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.kue.redis">module kue.redis</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.redis.client">
+            function <span class="apidocSignatureSpan">kue.redis.</span>client
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.redis.configureFactory">
+            function <span class="apidocSignatureSpan">kue.redis.</span>configureFactory
+            <span class="apidocSignatureSpan">( options, queue )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.redis.createClientFactory">
+            function <span class="apidocSignatureSpan">kue.redis.</span>createClientFactory
+            <span class="apidocSignatureSpan">( options )</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.redis.pubsubClient">
+            function <span class="apidocSignatureSpan">kue.redis.</span>pubsubClient
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.kue.redis.reset">
+            function <span class="apidocSignatureSpan">kue.redis.</span>reset
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.kue" id="apidoc.module.kue">module kue</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job" id="apidoc.element.kue.Job">
+        function <span class="apidocSignatureSpan">kue.</span>Job
+        <span class="apidocSignatureSpan">( type, data )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Job( type, data ) {
+  this.type          = type;
+  this.data          = data || {};
+  this._max_attempts = 1;
+  this._jobEvents = exports.jobEvents;
+//  this.client = redis.client();
+  this.client = Job.client/* || (Job.client = redis.client())*/;
+  this.priority(&#x27;normal&#x27;);
+  this.on(&#x27;error&#x27;, function( err ) {
+  });// prevent uncaught exceptions on failed job errors
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.createQueue" id="apidoc.element.kue.createQueue">
+        function <span class="apidocSignatureSpan">kue.</span>createQueue
+        <span class="apidocSignatureSpan">( options )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">createQueue = function ( options ) {
+  if( !Queue.singleton ) {
+    Queue.singleton = new Queue(options);
+  }
+  events.subscribe();
+  return Queue.singleton;
+
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+  - [Screencasts](#screencasts)
+  - [License](#license)
+
+
+
+## Creating Jobs
+
+First create a job `Queue` with `kue.<span class="apidocCodeKeywordSpan">createQueue</span>()`:
+
+```js
+var kue = require(&#x27;kue&#x27;)
+  , queue = kue.createQueue();
+```
+
+Calling `queue.create()` with the type of job (&#x22;email&#x22;), and arbitrary job data will return a `Job`, which can then be
+ `save()`ed, adding it to redis, with a default priority level of &#x22;normal&#x22;. The `save()` method optionally accepts a callback
+, responding with an `error` if something goes wrong. The `title` key is special-cased, and will display in the job listings within
+ the UI, making it easier to find a specific job.
+...</pre></li>
+    </ul>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.kue.Job" id="apidoc.module.kue.Job">module kue.Job</a></h1>
+
+
+
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.Job" id="apidoc.element.kue.Job.Job">
+        function <span class="apidocSignatureSpan">kue.</span>Job
+        <span class="apidocSignatureSpan">( type, data )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Job( type, data ) {
+  this.type          = type;
+  this.data          = data || {};
+  this._max_attempts = 1;
+  this._jobEvents = exports.jobEvents;
+//  this.client = redis.client();
+  this.client = Job.client/* || (Job.client = redis.client())*/;
+  this.priority(&#x27;normal&#x27;);
+  this.on(&#x27;error&#x27;, function( err ) {
+  });// prevent uncaught exceptions on failed job errors
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.get" id="apidoc.element.kue.Job.get">
+        function <span class="apidocSignatureSpan">kue.Job.</span>get
+        <span class="apidocSignatureSpan">( id, jobType, fn )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">get = function ( id, jobType, fn ) {
+  if (typeof jobType === &#x27;function&#x27; &#x26;&#x26; !fn) {
+    fn = jobType;
+    jobType = &#x27;&#x27;;
+  }
+  var client = redis.client()
+    , job    = new Job;
+
+  job.id = id;
+  job.zid = client.createFIFO(id);
+  client.hgetall(client.getKey(&#x27;job:&#x27; + job.id), function( err, hash ) {
+    if( err ) return fn(err);
+    if( !hash ) {
+      exports.removeBadJob(job.id, jobType);
+      return fn(new Error(&#x27;job &#x22;&#x27; + job.id + &#x27;&#x22; doesnt exist&#x27;));
+    }
+    if( !hash.type ) {
+      exports.removeBadJob(job.id, jobType);
+      return fn(new Error(&#x27;job &#x22;&#x27; + job.id + &#x27;&#x22; is invalid&#x27;))
+    }
+    // TODO: really lame, change some methods so
+    // we can just merge these
+    job.type              = hash.type;
+    job._ttl              = hash.ttl;
+    job._delay            = hash.delay;
+    job.priority(Number(hash.priority));
+    job._progress         = hash.progress;
+    job._attempts         = Number(hash.attempts);
+    job._max_attempts     = Number(hash.max_attempts);
+    job._state            = hash.state;
+    job._error            = hash.error;
+    job.created_at        = hash.created_at;
+    job.promote_at        = hash.promote_at;
+    job.updated_at        = hash.updated_at;
+    job.failed_at         = hash.failed_at;
+    job.started_at        = hash.started_at;
+    job.duration          = hash.duration;
+    job.workerId          = hash.workerId;
+    job._removeOnComplete = hash.removeOnComplete;
+    try {
+      if( hash.data ) job.data = JSON.parse(hash.data);
+      if( hash.result ) job.result = JSON.parse(hash.result);
+      if( hash.progress_data ) job.progress_data = JSON.parse(hash.progress_data);
+      if( hash.backoff ) {
+        var source = &#x27;job._backoff = &#x27; + hash.backoff + &#x27;;&#x27;;
+//                require(&#x27;vm&#x27;).runInContext( source );
+        eval(source);
+      }
+    } catch(e) {
+      err = e;
+    }
+    fn(err, job);
+  });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+Queue-level events provide access to the job-level events previously mentioned, however scoped to the `Queue` instance to apply
+logic at a &#x22;global&#x22; level. An example of this is removing completed jobs:
+
+```js
+queue.on(&#x27;job enqueue&#x27;, function(id, type){
+  console.log( &#x27;Job %s got queued of type %s&#x27;, id, type );
+
+}).on(&#x27;job complete&#x27;, function(id, result){
+  kue.Job.<span class="apidocCodeKeywordSpan">get</span>(id, function(err, job){
+    if (err) return;
+    job.remove(function(err){
+      if (err) throw err;
+      console.log(&#x27;removed completed job #%d&#x27;, job.id);
+    });
+  });
+});
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.log" id="apidoc.element.kue.Job.log">
+        function <span class="apidocSignatureSpan">kue.Job.</span>log
+        <span class="apidocSignatureSpan">( id, fn )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">log = function ( id, fn ) {
+<span class="apidocCodeCommentSpan">  /*redis*/
+</span>  Job.client/*()*/.lrange(Job.client.getKey(&#x27;job:&#x27; + id + &#x27;:log&#x27;), 0, -1, fn);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+```js
+var job = queue.create(&#x27;email&#x27;, {
+    title: &#x27;welcome email for tj&#x27;
+  , to: &#x27;tj@learnboost.com&#x27;
+  , template: &#x27;welcome-email&#x27;
+}).save( function(err){
+   if( !err ) console.<span class="apidocCodeKeywordSpan">log</span>( job.id );
+});
+```
+
+### Job Priority
+
+To specify the priority of a job, simply invoke the `priority()` method with a number, or priority name, which is mapped to a number
+.
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.range" id="apidoc.element.kue.Job.range">
+        function <span class="apidocSignatureSpan">kue.Job.</span>range
+        <span class="apidocSignatureSpan">( from, to, order, fn )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">range = function ( from, to, order, fn ) {
+  redis.client().zrange(redis.client().getKey(&#x27;jobs&#x27;), from, to, get(fn, order));
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.rangeByState" id="apidoc.element.kue.Job.rangeByState">
+        function <span class="apidocSignatureSpan">kue.Job.</span>rangeByState
+        <span class="apidocSignatureSpan">( state, from, to, order, fn )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">rangeByState = function ( state, from, to, order, fn ) {
+  redis.client().zrange(redis.client().getKey(&#x27;jobs:&#x27; + state), from, to, get(fn, order));
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+  // you may want to fetch each id to get the Job object out of it...
+});
+```
+
+however the second one doesn&#x27;t scale to large deployments, there you can use more specific `Job` static methods:
+
+```js
+kue.Job.<span class="apidocCodeKeywordSpan">rangeByState</span>( &#x27;failed&#x27;, 0, n, &#x27;asc&#x27;, function( err, jobs ) {
+  // you have an array of maximum n Job objects here
+});
+```
+or
+
+```js
+kue.Job.rangeByType( &#x27;my-job-type&#x27;, &#x27;failed&#x27;, 0, n, &#x27;asc&#x27;, function( err, jobs ) {
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.rangeByType" id="apidoc.element.kue.Job.rangeByType">
+        function <span class="apidocSignatureSpan">kue.Job.</span>rangeByType
+        <span class="apidocSignatureSpan">( type, state, from, to, order, fn )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">rangeByType = function ( type, state, from, to, order, fn ) {
+  redis.client().zrange(redis.client().getKey(&#x27;jobs:&#x27; + type + &#x27;:&#x27; + state), from, to, get(fn, order, type));
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+kue.Job.rangeByState( &#x27;failed&#x27;, 0, n, &#x27;asc&#x27;, function( err, jobs ) {
+  // you have an array of maximum n Job objects here
+});
+```
+or
+
+```js
+kue.Job.<span class="apidocCodeKeywordSpan">rangeByType</span>( &#x27;my-job-type&#x27;, &#x27;failed&#x27;, 0, n, &#x27;asc&#x27
+;, function( err, jobs ) {
+  // you have an array of maximum n Job objects here
+});
+```
+
+**Note** *that the last two methods are subject to change in later Kue versions.*
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.remove" id="apidoc.element.kue.Job.remove">
+        function <span class="apidocSignatureSpan">kue.Job.</span>remove
+        <span class="apidocSignatureSpan">( id, fn )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">remove = function ( id, fn ) {
+  fn = fn || noop;
+  exports.get(id, function( err, job ) {
+    if( err ) return fn(err);
+    if( !job ) return fn(new Error(&#x27;failed to find job &#x27; + id));
+    job.remove(fn);
+  });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+```js
+queue.on(&#x27;job enqueue&#x27;, function(id, type){
+  console.log( &#x27;Job %s got queued of type %s&#x27;, id, type );
+
+}).on(&#x27;job complete&#x27;, function(id, result){
+  kue.Job.get(id, function(err, job){
+    if (err) return;
+    job.<span class="apidocCodeKeywordSpan">remove</span>(function(err){
+      if (err) throw err;
+      console.log(&#x27;removed completed job #%d&#x27;, job.id);
+    });
+  });
+});
+```
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.removeBadJob" id="apidoc.element.kue.Job.removeBadJob">
+        function <span class="apidocSignatureSpan">kue.Job.</span>removeBadJob
+        <span class="apidocSignatureSpan">( id, jobType)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">removeBadJob = function ( id, jobType) {
+  var client = redis.client();
+  var zid = client.createFIFO(id);
+  client.multi()
+    .del(client.getKey(&#x27;job:&#x27; + id + &#x27;:log&#x27;))
+    .del(client.getKey(&#x27;job:&#x27; + id))
+    .zrem(client.getKey(&#x27;jobs:inactive&#x27;), zid)
+    .zrem(client.getKey(&#x27;jobs:active&#x27;), zid)
+    .zrem(client.getKey(&#x27;jobs:complete&#x27;), zid)
+    .zrem(client.getKey(&#x27;jobs:failed&#x27;), zid)
+    .zrem(client.getKey(&#x27;jobs:delayed&#x27;), zid)
+    .zrem(client.getKey(&#x27;jobs&#x27;), zid)
+    .zrem(client.getKey(&#x27;jobs:&#x27; + jobType + &#x27;:inactive&#x27;), zid)
+    .zrem(client.getKey(&#x27;jobs:&#x27; + jobType+ &#x27;:active&#x27;), zid)
+    .zrem(client.getKey(&#x27;jobs:&#x27; + jobType + &#x27;:complete&#x27;), zid)
+    .zrem(client.getKey(&#x27;jobs:&#x27; + jobType + &#x27;:failed&#x27;), zid)
+    .zrem(client.getKey(&#x27;jobs:&#x27; + jobType + &#x27;:delayed&#x27;), zid)
+    .exec();
+  if( !exports.disableSearch ) {
+    getSearch().remove(id);
+  }
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.kue.Job.prototype" id="apidoc.module.kue.Job.prototype">module kue.Job.prototype</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype._getBackoffImpl" id="apidoc.element.kue.Job.prototype._getBackoffImpl">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>_getBackoffImpl
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">_getBackoffImpl = function () {
+  var supported_backoffs = {
+    fixed: function( delay ) {
+      return function( attempts ) {
+        return delay;
+      };
+    }
+    , exponential: function( delay ) {
+      return function( attempts ) {
+        return Math.round(delay * 0.5 * ( Math.pow(2, attempts) - 1));
+      };
+    }
+  };
+  if( _.isPlainObject(this._backoff) ) {
+    return supported_backoffs[ this._backoff.type ](this._backoff.delay || this._delay);
+  } else {
+    return this._backoff;
+  }
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.active" id="apidoc.element.kue.Job.prototype.active">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>active
+        <span class="apidocSignatureSpan">( clbk )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">active = function ( clbk ) {
+  return this.state(&#x27;active&#x27;, clbk);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+
+### Programmatic Job Management
+
+If you did none of above in [Error Handling](#error-handling) section or your process lost active jobs in any way, you can recover
+ from them when your process is restarted. A blind logic would be to re-queue all stuck jobs:
+
+```js
+queue.<span class="apidocCodeKeywordSpan">active</span>( function( err, ids ) {
+  ids.forEach( function( id ) {
+    kue.Job.get( id, function( err, job ) {
+      // Your application should check if job is a stuck one
+      job.inactive();
+    });
+  });
+});
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.attempt" id="apidoc.element.kue.Job.prototype.attempt">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>attempt
+        <span class="apidocSignatureSpan">( fn )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">attempt = function ( fn ) {
+  var client = this.client
+    , id     = this.id
+    , key    = client.getKey(&#x27;job:&#x27; + id);
+
+  this._attempts = this._attempts || 0;
+  if( this._attempts &#x3c; this._max_attempts ) {
+    client.hincrby(key, &#x27;attempts&#x27;, 1, function( err, attempts ) {
+      this._attempts = attempts;
+      fn(err, Math.max(0, this._max_attempts - attempts), attempts, this._max_attempts);
+    }.bind(this));
+  } else {
+    fn(null, 0, this._attempts, this._max_attempts);
+  }
+  return this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.attempts" id="apidoc.element.kue.Job.prototype.attempts">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>attempts
+        <span class="apidocSignatureSpan">( n )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">attempts = function ( n ) {
+  this._max_attempts = n;
+  return this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+ , high: -10
+ , critical: -15
+};
+```
+
+### Failure Attempts
+
+By default jobs only have _one_ attempt, that is when they fail, they are marked as a failure, and remain that way until you intervene
+. However, Kue allows you to specify this, which is important for jobs such as transferring an email, which upon failure, may usually
+ retry without issue. To do this invoke the `.<span class="apidocCodeKeywordSpan">attempts</span>()` method with a number.
+
+```js
+queue.create(&#x27;email&#x27;, {
+    title: &#x27;welcome email for tj&#x27;
+  , to: &#x27;tj@learnboost.com&#x27;
+  , template: &#x27;welcome-email&#x27;
+}).priority(&#x27;high&#x27;).attempts(5).save();
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.backoff" id="apidoc.element.kue.Job.prototype.backoff">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>backoff
+        <span class="apidocSignatureSpan">( param )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">backoff = function ( param ) {
+  if( 0 == arguments.length ) return this._backoff;
+  this._backoff = param;
+  return this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+```
+
+### Failure Backoff
+Job retry attempts are done as soon as they fail, with no delay, even if your job had a delay set via `Job#delay`. If you want to
+ delay job re-attempts upon failures (known as backoff) you can use `Job#backoff` method in different ways:
+
+```js
+// Honor job&#x27;s original delay (if set) at each attempt, defaults to fixed backoff
+job.attempts(3).<span class="apidocCodeKeywordSpan">backoff</span>( true )
+
+// Override delay value, fixed backoff
+job.attempts(3).backoff( {delay: 60*1000, type:&#x27;fixed&#x27;} )
+
+// Enable exponential backoff using original delay (if set)
+job.attempts(3).backoff( {type:&#x27;exponential&#x27;} )
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.complete" id="apidoc.element.kue.Job.prototype.complete">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>complete
+        <span class="apidocSignatureSpan">( clbk )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">complete = function ( clbk ) {
+  return this.set(&#x27;progress&#x27;, 100).state(&#x27;complete&#x27;, clbk);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.delay" id="apidoc.element.kue.Job.prototype.delay">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>delay
+        <span class="apidocSignatureSpan">( ms )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">delay = function ( ms ) {
+  if( 0 == arguments.length ) return this._delay;
+  if( _.isDate(ms) ) {
+    ms = parseInt(ms.getTime() - Date.now())
+  }
+  if( ms &#x3e; 0 ) {
+    this._delay = ms;
+  }
+  return this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+});
+```
+
+The events available are the same as mentioned in &#x22;Job Events&#x22;, however prefixed with &#x22;job &#x22;.
+
+### Delayed Jobs
+
+Delayed jobs may be scheduled to be queued for an arbitrary distance in time by invoking the `.<span class="apidocCodeKeywordSpan
+">delay</span>(ms)` method, passing the number of milliseconds relative to _now_. Alternatively, you can pass a JavaScript `Date
+` object with a specific time in the future.
+This automatically flags the `Job` as &#x22;delayed&#x22;.
+
+```js
+var email = queue.create(&#x27;email&#x27;, {
+  title: &#x27;Account renewal required&#x27;
+, to: &#x27;tj@learnboost.com&#x27;
+, template: &#x27;renewal-email&#x27;
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.delayed" id="apidoc.element.kue.Job.prototype.delayed">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>delayed
+        <span class="apidocSignatureSpan">( clbk )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">delayed = function ( clbk ) {
+  return this.state(&#x27;delayed&#x27;, clbk);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.error" id="apidoc.element.kue.Job.prototype.error">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>error
+        <span class="apidocSignatureSpan">( err )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">error = function ( err ) {
+  var str, summary;
+  if( 0 == arguments.length ) return this._error;
+
+  if( &#x27;string&#x27; == typeof err ) {
+    str     = err;
+    summary = &#x27;&#x27;;
+  } else {
+    if( err.stack &#x26;&#x26; &#x27;string&#x27; === typeof err.stack ) {
+      str = err.stack
+    } else { //TODO what happens to CallSite[] err.stack?
+      str = err.message
+    }
+    summary = (&#x27;string&#x27; === typeof str) ? str.split(&#x27;\n&#x27;)[ 0 ] : &#x27;&#x27;;
+  }
+  this.set(&#x27;error&#x27;, str);
+  this.log(&#x27;%s&#x27;, summary);
+  events.emit(this.id, &#x27;error&#x27;, str);
+  return this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+
+
+2. Binding to `uncaughtException` and gracefully shutting down the Kue, however this is not a recommended error handling idiom in
+ javascript since you are losing the error context.
+
+```js
+process.once( &#x27;uncaughtException&#x27;, function(err){
+  console.<span class="apidocCodeKeywordSpan">error</span>( &#x27;Something bad happened: &#x27;, err );
+  queue.shutdown( 1000, function(err2){
+    console.error( &#x27;Kue shutdown result: &#x27;, err2 || &#x27;OK&#x27; );
+    process.exit( 0 );
+  });
+});
+```
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.events" id="apidoc.element.kue.Job.prototype.events">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>events
+        <span class="apidocSignatureSpan">(events)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">events = function (events) {
+  this._jobEvents = !!events;
+  return this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+ ```js
+ kue.createQueue({jobEvents: false})
+ ```
+
+ Alternatively, you can use the job level function `events` to control whether events are fired for a job at the job level.
+
+ ```js
+var job = queue.create(&#x27;test&#x27;).<span class="apidocCodeKeywordSpan">events</span>(false).save();
+ ```
+
+### Queue Events
+
+Queue-level events provide access to the job-level events previously mentioned, however scoped to the `Queue` instance to apply
+logic at a &#x22;global&#x22; level. An example of this is removing completed jobs:
+
+```js
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.failed" id="apidoc.element.kue.Job.prototype.failed">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>failed
+        <span class="apidocSignatureSpan">( clbk )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">failed = function ( clbk ) {
+  this.failed_at = Date.now();
+  return this.set(&#x27;failed_at&#x27;, this.failed_at).state(&#x27;failed&#x27;, clbk);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.failedAttempt" id="apidoc.element.kue.Job.prototype.failedAttempt">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>failedAttempt
+        <span class="apidocSignatureSpan">( theErr, fn )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">failedAttempt = function ( theErr, fn ) {
+  this.error(theErr).failed(function() {
+    this.attempt(function( error, remaining, attempts/*, max*/ ) {
+      if( error ) {
+        this.emit( &#x27;error&#x27;, error );
+        return fn &#x26;&#x26; fn( error );
+      }
+      if( remaining &#x3e; 0 ) {
+        this.reattempt(attempts, function( err ) {
+          if( err ) {
+            this.emit( &#x27;error&#x27;, err );
+            return fn &#x26;&#x26; fn( err );
+          }
+          fn &#x26;&#x26; fn( err, true, attempts );
+        }.bind(this));
+      } else if( remaining === 0 )  {
+        fn &#x26;&#x26; fn( null, false, attempts );
+      } else {
+        fn &#x26;&#x26; fn( new Error(&#x27;Attempts Exceeded&#x27;) );
+      }
+    }.bind(this));
+  }.bind(this));
+  return this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.get" id="apidoc.element.kue.Job.prototype.get">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>get
+        <span class="apidocSignatureSpan">( key, fn )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">get = function ( key, fn ) {
+  this.client.hget(this.client.getKey(&#x27;job:&#x27; + this.id), key, fn || noop);
+  return this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+Queue-level events provide access to the job-level events previously mentioned, however scoped to the `Queue` instance to apply
+logic at a &#x22;global&#x22; level. An example of this is removing completed jobs:
+
+```js
+queue.on(&#x27;job enqueue&#x27;, function(id, type){
+  console.log( &#x27;Job %s got queued of type %s&#x27;, id, type );
+
+}).on(&#x27;job complete&#x27;, function(id, result){
+  kue.Job.<span class="apidocCodeKeywordSpan">get</span>(id, function(err, job){
+    if (err) return;
+    job.remove(function(err){
+      if (err) throw err;
+      console.log(&#x27;removed completed job #%d&#x27;, job.id);
+    });
+  });
+});
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.inactive" id="apidoc.element.kue.Job.prototype.inactive">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>inactive
+        <span class="apidocSignatureSpan">( clbk )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">inactive = function ( clbk ) {
+  return this.state(&#x27;inactive&#x27;, clbk);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+  }
+});
+```
+
+and iterating over job ids
+
+```js
+queue.<span class="apidocCodeKeywordSpan">inactive</span>( function( err, ids ) { // others are active, complete, failed, delayed
+  // you may want to fetch each id to get the Job object out of it...
+});
+```
+
+however the second one doesn&#x27;t scale to large deployments, there you can use more specific `Job` static methods:
+
+```js
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.log" id="apidoc.element.kue.Job.prototype.log">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>log
+        <span class="apidocSignatureSpan">( str )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">log = function ( str ) {
+  if(typeof str === &#x27;string&#x27;) {
+    var formatted = util.format.apply(util, arguments);
+  }else{
+    var formatted = util.inspect(str);
+  }
+  this.client.rpush(this.client.getKey(&#x27;job:&#x27; + this.id + &#x27;:log&#x27;), formatted, noop);
+  this.set(&#x27;updated_at&#x27;, Date.now());
+  return this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+```js
+var job = queue.create(&#x27;email&#x27;, {
+    title: &#x27;welcome email for tj&#x27;
+  , to: &#x27;tj@learnboost.com&#x27;
+  , template: &#x27;welcome-email&#x27;
+}).save( function(err){
+   if( !err ) console.<span class="apidocCodeKeywordSpan">log</span>( job.id );
+});
+```
+
+### Job Priority
+
+To specify the priority of a job, simply invoke the `priority()` method with a number, or priority name, which is mapped to a number
+.
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.priority" id="apidoc.element.kue.Job.prototype.priority">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>priority
+        <span class="apidocSignatureSpan">( level )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">priority = function ( level ) {
+  if( 0 == arguments.length ) return this._priority;
+  this._priority = null == priorities[ level ]
+    ? level
+    : priorities[ level ];
+  return this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+To specify the priority of a job, simply invoke the `priority()` method with a number, or priority name, which is mapped to a number
+.
+
+```js
+queue.create(&#x27;email&#x27;, {
+title: &#x27;welcome email for tj&#x27;
+  , to: &#x27;tj@learnboost.com&#x27;
+  , template: &#x27;welcome-email&#x27;
+}).<span class="apidocCodeKeywordSpan">priority</span>(&#x27;high&#x27;).save();
+```
+
+The default priority map is as follows:
+
+```js
+{
+low: 10
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.progress" id="apidoc.element.kue.Job.prototype.progress">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>progress
+        <span class="apidocSignatureSpan">( complete, total, data )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">progress = function ( complete, total, data ) {
+  if( 0 == arguments.length ) return this._progress;
+  var n = Math.min(100, complete * 100 / total | 0);
+  this.set(&#x27;progress&#x27;, n);
+
+  // If this stringify fails because of a circular structure, even the one in events.emit would.
+  // So it does not make sense to try/catch this.
+  if( data ) this.set(&#x27;progress_data&#x27;, JSON.stringify(data));
+
+  this.set(&#x27;updated_at&#x27;, Date.now());
+  this.refreshTtl();
+  events.emit(this.id, &#x27;progress&#x27;, n, data);
+  return this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+job.log({key: &#x27;some key&#x27;, value: 10});
+job.log({[1,2,3,5,8]});
+job.log(10.1);
+```
+
+### Job Progress
+
+Job progress is extremely useful for long-running jobs such as video conversion. To update the job&#x27;s progress simply invoke
+ `job.<span class="apidocCodeKeywordSpan">progress</span>(completed, total [, data])`:
+
+```js
+job.progress(frames, totalFrames);
+```
+
+data can be used to pass extra information about the job. For example a message or an object with some extra contextual data to
+the current status.
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.reattempt" id="apidoc.element.kue.Job.prototype.reattempt">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>reattempt
+        <span class="apidocSignatureSpan">( attempts, clbk )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">reattempt = function ( attempts, clbk ) {
+  clbk = clbk || noop;
+  if( this.backoff() ) {
+    var delay = this.delay();
+    if( _.isFunction(this._getBackoffImpl()) ) {
+      try {
+        delay = this._getBackoffImpl().apply(this, [ attempts ]);
+      } catch(e) {
+        clbk(e);
+      }
+    }
+    var self = this;
+    this.delay(delay).update(function( err ) {
+      if( err ) return clbk(err);
+      self.delayed(clbk);
+    });
+  } else {
+    this.inactive(clbk);
+  }
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.refreshTtl" id="apidoc.element.kue.Job.prototype.refreshTtl">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>refreshTtl
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">refreshTtl = function () {
+  (&#x27;active&#x27; === this.state() &#x26;&#x26; this._ttl &#x3e; 0)
+    ?
+    this.client.zadd(this.client.getKey(&#x27;jobs:&#x27; + this.state()), Date.now() + parseInt(this._ttl), this.zid, noop)
+    :
+    noop();
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.remove" id="apidoc.element.kue.Job.prototype.remove">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>remove
+        <span class="apidocSignatureSpan">( fn )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">remove = function ( fn ) {
+  var client = this.client;
+  client.multi()
+    .zrem(client.getKey(&#x27;jobs:&#x27; + this.state()), this.zid)
+    .zrem(client.getKey(&#x27;jobs:&#x27; + this.type + &#x27;:&#x27; + this.state()), this.zid)
+    .zrem(client.getKey(&#x27;jobs&#x27;), this.zid)
+    .del(client.getKey(&#x27;job:&#x27; + this.id + &#x27;:log&#x27;))
+    .del(client.getKey(&#x27;job:&#x27; + this.id))
+    .exec(function( err ) {
+//            events.remove(this);
+      events.emit(this.id, &#x27;remove&#x27;, this.type);
+      if( !exports.disableSearch ) {
+        getSearch().remove(this.id, fn);
+      } else {
+        fn &#x26;&#x26; fn(err);
+      }
+    }.bind(this));
+  return this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+```js
+queue.on(&#x27;job enqueue&#x27;, function(id, type){
+  console.log( &#x27;Job %s got queued of type %s&#x27;, id, type );
+
+}).on(&#x27;job complete&#x27;, function(id, result){
+  kue.Job.get(id, function(err, job){
+    if (err) return;
+    job.<span class="apidocCodeKeywordSpan">remove</span>(function(err){
+      if (err) throw err;
+      console.log(&#x27;removed completed job #%d&#x27;, job.id);
+    });
+  });
+});
+```
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.removeOnComplete" id="apidoc.element.kue.Job.prototype.removeOnComplete">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>removeOnComplete
+        <span class="apidocSignatureSpan">( param )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">removeOnComplete = function ( param ) {
+  if( 0 == arguments.length ) return this._removeOnComplete;
+  this._removeOnComplete = param;
+  return this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+**Note** *in a clustered deployment your application should be aware not to involve a job that is valid, currently inprocess by
+other workers.*
+
+### Job Cleanup
+
+Jobs data and search indexes eat up redis memory space, so you will need some job-keeping process in real world deployments. Your
+ first chance is using automatic job removal on completion.
+
+```javascript
+queue.create( ... ).<span class="apidocCodeKeywordSpan">removeOnComplete</span>( true ).save()
+```
+
+But if you eventually/temporally need completed job data, you can setup an on-demand job removal script like below to remove top
+ `n` completed jobs:
+
+```js
+kue.Job.rangeByState( &#x27;complete&#x27;, 0, n, &#x27;asc&#x27;, function( err, jobs ) {
+jobs.forEach( function( job ) {
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.save" id="apidoc.element.kue.Job.prototype.save">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>save
+        <span class="apidocSignatureSpan">( fn )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">save = function ( fn ) {
+  var client = this.client
+    , fn     = fn || noop
+    , max    = this._max_attempts
+    , self   = this;
+
+  // update
+  if( this.id ) return this.update(fn);
+
+  // incr id
+  client.incr(client.getKey(&#x27;ids&#x27;), function( err, id ) {
+    if( err ) return fn(err);
+    // add the job for event mapping
+    self.id = id;
+    self.zid = client.createFIFO(id);
+    self.subscribe(function() {
+      self._state     = self._state || (this._delay ? &#x27;delayed&#x27; : &#x27;inactive&#x27;);
+      if( max ) { self.set(&#x27;max_attempts&#x27;, max); }
+      client.sadd(client.getKey(&#x27;job:types&#x27;), self.type, noop);
+      self.set(&#x27;type&#x27;, self.type);
+      var now         = Date.now();
+      self.created_at = now;
+      self.set(&#x27;created_at&#x27;, self.created_at);
+      self.promote_at = now + (self._delay || 0);
+      self.set(&#x27;promote_at&#x27;, self.promote_at);
+      self.update(fn);
+    }.bind(this));
+  }.bind(this));
+  return this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+Calling `queue.create()` with the type of job (&#x22;email&#x22;), and arbitrary job data will return a `Job`, which can then be
+ `save()`ed, adding it to redis, with a default priority level of &#x22;normal&#x22;. The `save()` method optionally accepts a callback
+, responding with an `error` if something goes wrong. The `title` key is special-cased, and will display in the job listings within
+ the UI, making it easier to find a specific job.
+
+```js
+var job = queue.create(&#x27;email&#x27;, {
+    title: &#x27;welcome email for tj&#x27;
+  , to: &#x27;tj@learnboost.com&#x27;
+  , template: &#x27;welcome-email&#x27;
+}).<span class="apidocCodeKeywordSpan">save</span>( function(err){
+   if( !err ) console.log( job.id );
+});
+```
+
+### Job Priority
+
+To specify the priority of a job, simply invoke the `priority()` method with a number, or priority name, which is mapped to a number
+.
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.searchKeys" id="apidoc.element.kue.Job.prototype.searchKeys">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>searchKeys
+        <span class="apidocSignatureSpan">( keys )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">searchKeys = function ( keys ) {
+  if( 0 == arguments.length ) return this._searchKeys;
+  this._searchKeys = keys || [];
+  if( !_.isArray(this._searchKeys) ) {
+    this._searchKeys = [ this._searchKeys ];
+  }
+  return this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+```javascript
+var kue = require(&#x27;kue&#x27;);
+queue = kue.createQueue();
+queue.create(&#x27;email&#x27;, {
+    title: &#x27;welcome email for tj&#x27;
+  , to: &#x27;tj@learnboost.com&#x27;
+  , template: &#x27;welcome-email&#x27;
+}).<span class="apidocCodeKeywordSpan">searchKeys</span>( [&#x27;to&#x27;, &#x27;title&#x27;] ).save();
+```
+
+Search feature is turned off by default from Kue `&#x3e;=0.9.0`. Read more about this [here](https://github.com/Automattic/kue/issues
+/412). You should enable search indexes and add [reds](https://www.npmjs.com/package/reds) in your dependencies if you need to:
+
+```javascript
+var kue = require(&#x27;kue&#x27;);
+q = kue.createQueue({
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.set" id="apidoc.element.kue.Job.prototype.set">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>set
+        <span class="apidocSignatureSpan">( key, val, fn )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">set = function ( key, val, fn ) {
+  this.client.hset(this.client.getKey(&#x27;job:&#x27; + this.id), key, val, fn || noop);
+  return this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+kue.createQueue(...);
+kue.app.listen(3000);
+```
+
+The title defaults to &#x22;Kue&#x22;, to alter this invoke:
+
+```js
+kue.app.<span class="apidocCodeKeywordSpan">set</span>(&#x27;title&#x27;, &#x27;My Application&#x27;);
+```
+
+**Note** *that if you are using non-default Kue options, `kue.createQueue(...)` must be called before accessing `kue.app`.*
+
+### Third-party interfaces
+
+You can also use [Kue-UI](https://github.com/StreetHub/kue-ui) web interface contributed by [Arnaud Bénard](https://github.com/arnaudbenard
+)
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.state" id="apidoc.element.kue.Job.prototype.state">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>state
+        <span class="apidocSignatureSpan">( state, fn )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">state = function ( state, fn ) {
+  if( 0 == arguments.length ) return this._state;
+  var client   = this.client
+    , fn       = fn || noop;
+  var oldState = this._state;
+  var multi    = client.multi();
+  if( oldState &#x26;&#x26; oldState != &#x27;&#x27; &#x26;&#x26; oldState != state ) {
+    multi
+      .zrem(client.getKey(&#x27;jobs:&#x27; + oldState), this.zid)
+      .zrem(client.getKey(&#x27;jobs:&#x27; + this.type + &#x27;:&#x27; + oldState), this.zid);
+  }
+  multi
+    .hset(client.getKey(&#x27;job:&#x27; + this.id), &#x27;state&#x27;, state)
+    .zadd(client.getKey(&#x27;jobs:&#x27; + state), this._priority, this.zid)
+    .zadd(client.getKey(&#x27;jobs:&#x27; + this.type + &#x27;:&#x27; + state), this._priority, this.zid);
+
+  // use promote_at as score when job moves to delayed
+  (&#x27;delayed&#x27; === state) ? multi.zadd(client.getKey(&#x27;jobs:&#x27; + state), parseInt(this.promote_at), this.zid) : noop();
+  (&#x27;active&#x27; === state &#x26;&#x26; this._ttl &#x3e; 0) ? multi.zadd(client.getKey(&#x27;jobs:&#x27; + state), Date.now() + parseInt(this._ttl), this.zid) :
+noop();
+  (&#x27;active&#x27; === state &#x26;&#x26; !this._ttl) ? multi.zadd(client.getKey(&#x27;jobs:&#x27; + state), this._priority&#x3c;0?this._priority:-this._priority
+, this.zid) : noop();
+  (&#x27;inactive&#x27; === state) ? multi.lpush(client.getKey(this.type + &#x27;:jobs&#x27;), 1) : noop();
+
+  this.set(&#x27;updated_at&#x27;, Date.now());
+  this._state = state;
+  multi.exec(function( err, replies ) {
+    if( !err ) {
+      (this._state === &#x27;inactive&#x27;) ? events.emit(this.id, &#x27;enqueue&#x27;, this.type) : noop();
+    }
+    return fn(err);
+  }.bind(this));
+  return this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.subscribe" id="apidoc.element.kue.Job.prototype.subscribe">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>subscribe
+        <span class="apidocSignatureSpan">( callback )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">subscribe = function ( callback ) {
+  if( this._jobEvents ) {
+    events.add(this, callback);
+  } else {
+    callback &#x26;&#x26; callback();
+  }
+  return this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.toJSON" id="apidoc.element.kue.Job.prototype.toJSON">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>toJSON
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">toJSON = function () {
+  return {
+    id: this.id
+    , type: this.type
+    , data: this.data
+    , result: this.result
+    , priority: this._priority
+    , progress: this._progress || 0
+    , progress_data: this.progress_data
+    , state: this._state
+    , error: this._error
+    , created_at: this.created_at
+    , promote_at: this.promote_at
+    , updated_at: this.updated_at
+    , failed_at: this.failed_at
+    , started_at: this.started_at
+    , duration: this.duration
+    , delay: this._delay
+    , workerId: this.workerId
+    , ttl: this._ttl
+    , attempts: {
+      made: Number(this._attempts) || 0
+      , remaining: this._attempts &#x3e; 0 ? this._max_attempts - this._attempts : Number(this._max_attempts) || 1
+      , max: Number(this._max_attempts) || 1
+    }
+  };
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.ttl" id="apidoc.element.kue.Job.prototype.ttl">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>ttl
+        <span class="apidocSignatureSpan">( param )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">ttl = function ( param ) {
+  if( 0 == arguments.length ) return this._ttl;
+  if( param &#x3e; 0 ) {
+    this._ttl = param;
+  }
+  return this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+In the last scenario, provided function will be executed (via eval) on each re-attempt to get next attempt delay value, meaning
+that you can&#x27;t reference external/context variables within it.
+
+### Job TTL
+
+Job producers can set an expiry value for the time their job can live in active state, so that if workers didn&#x27;t reply in timely
+ fashion, Kue will fail it with `TTL exceeded` error message preventing that job from being stuck in active state and spoiling concurrency
+.
+
+```js
+queue.create(&#x27;email&#x27;, {title: &#x27;email job with TTL&#x27;}).<span class="apidocCodeKeywordSpan">ttl</span>(milliseconds
+).save();
+```
+
+### Job Logs
+
+Job-specific logs enable you to expose information to the UI at any point in the job&#x27;s life-time. To do so simply invoke `job
+.log()`, which accepts a message string as well as variable-arguments for sprintf-like support:
+
+```js
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.Job.prototype.update" id="apidoc.element.kue.Job.prototype.update">
+        function <span class="apidocSignatureSpan">kue.Job.prototype.</span>update
+        <span class="apidocSignatureSpan">( fn )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">update = function ( fn ) {
+  var json;
+
+  // serialize json data
+  try {
+    json = JSON.stringify(this.data);
+  } catch(err) {
+    fn(err);
+    return this;
+  }
+
+  // delay
+  if( this._delay ) {
+    this.set(&#x27;delay&#x27;, this._delay);
+    if( this.created_at ) {
+      var timestamp   = parseInt(this.failed_at || this.created_at, 10)
+        , delay       = parseInt(this._delay);
+      this.promote_at = timestamp + delay;
+      this.set(&#x27;promote_at&#x27;, this.promote_at);
+    }
+  }
+  if( this._ttl ) {
+    this.set(&#x27;ttl&#x27;, this._ttl);
+  }
+  if( this._removeOnComplete ) this.set(&#x27;removeOnComplete&#x27;, this._removeOnComplete);
+  if( this._backoff ) {
+    if( _.isPlainObject(this._backoff) ) this.set(&#x27;backoff&#x27;, JSON.stringify(this._backoff));
+    else this.set(&#x27;backoff&#x27;, this._backoff.toString());
+  }
+
+  // updated timestamp
+  this.set(&#x27;updated_at&#x27;, Date.now());
+  this.refreshTtl();
+
+  // priority
+  this.set(&#x27;priority&#x27;, this._priority);
+
+  this.client.zadd(this.client.getKey(&#x27;jobs&#x27;), this._priority, this.zid, noop);
+
+  // data
+  this.set(&#x27;data&#x27;, json, function() {
+    // state
+    this.state(this._state, fn);
+  }.bind(this));
+
+  if( !exports.disableSearch ) {
+    if( this.searchKeys() ) {
+      this.searchKeys().forEach(function( key ) {
+        var value = _.get(this.data, key);
+        if( !_.isString(value) ) {
+          value = JSON.stringify(value);
+        }
+        getSearch().index(value, this.id);
+      }.bind(this));
+    } else {
+      getSearch().index(json, this.id);
+    }
+  }
+  return this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.kue.redis" id="apidoc.module.kue.redis">module kue.redis</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.kue.redis.client" id="apidoc.element.kue.redis.client">
+        function <span class="apidocSignatureSpan">kue.redis.</span>client
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">client = function () {
+  return exports._client || (exports._client = exports.createClient());
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.redis.configureFactory" id="apidoc.element.kue.redis.configureFactory">
+        function <span class="apidocSignatureSpan">kue.redis.</span>configureFactory
+        <span class="apidocSignatureSpan">( options, queue )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">configureFactory = function ( options, queue ) {
+  options.prefix = options.prefix || &#x27;q&#x27;;
+
+  if( typeof options.redis === &#x27;string&#x27; ) {
+    // parse the url
+    var conn_info = url.parse(options.redis, true<span class="apidocCodeCommentSpan"> /* parse query string */);
+    if( conn_info.protocol !== &#x27;redis:&#x27; ) {
+      throw new Error(&#x27;kue connection string must use the redis: protocol&#x27;);
+    }
+
+    options.redis = {
+      port: conn_info.port || 6379,
+      host: conn_info.hostname,
+      db: (conn_info.pathname ? conn_info.pathname.substr(1) : null) || 0,
+      // see https://github.com/mranney/node_redis#rediscreateclient
+      options: conn_info.query
+    };
+
+    if( conn_info.auth ) {
+      options.redis.auth = conn_info.auth.replace(/.*?:/, &#x27;&#x27;);
+    }
+
+  }
+
+  options.redis = options.redis || {};
+
+  // guarantee that redis._client has not been populated.
+  // may warrant some more testing - i was running into cases where shutdown
+  // would call redis.reset but an event would be emitted after the reset
+  // which would re-create the client and cache it in the redis module.
+  exports.reset();
+
+  /**
+   * Create a RedisClient.
+   *
+   * @return {RedisClient}
+   * @api private
+   */
+</span>  exports.createClient = function() {
+    var clientFactoryMethod = options.redis.createClientFactory || exports.createClientFactory;
+    var client              = clientFactoryMethod(options);
+
+    client.on(&#x27;error&#x27;, function( err ) {
+      queue.emit(&#x27;error&#x27;, err);
+    });
+
+    client.prefix           = options.prefix;
+
+    // redefine getKey to use the configured prefix
+    client.getKey = function( key ) {
+      if( client.constructor.name == &#x27;Redis&#x27;  || client.constructor.name == &#x27;Cluster&#x27;) {
+        // {prefix}:jobs format is needed in using ioredis cluster to keep they keys in same node
+        // otherwise multi commands fail, since they use ioredis&#x27;s pipeline.
+        return &#x27;{&#x27; + this.prefix + &#x27;}:&#x27; + key;
+      }
+      return this.prefix + &#x27;:&#x27; + key;
+    };
+
+    client.createFIFO = function( id ) {
+      //Create an id for the zset to preserve FIFO order
+      var idLen = &#x27;&#x27; + id.toString().length;
+      var len = 2 - idLen.length;
+      while (len--) idLen = &#x27;0&#x27; + idLen;
+      return idLen + &#x27;|&#x27; + id;
+    };
+
+    // Parse out original ID from zid
+    client.stripFIFO = function( zid ) {
+      if ( typeof zid === &#x27;string&#x27; ) {
+        return +zid.substr(zid.indexOf(&#x27;|&#x27;)+1);
+      } else {
+        // Sometimes this gets called with an undefined
+        // it seems to be OK to have that not resolve to an id
+        return zid;
+      }
+    };
+
+    return client;
+  };
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.redis.createClientFactory" id="apidoc.element.kue.redis.createClientFactory">
+        function <span class="apidocSignatureSpan">kue.redis.</span>createClientFactory
+        <span class="apidocSignatureSpan">( options )</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">createClientFactory = function ( options ) {
+  var socket = options.redis.socket;
+  var port   = !socket ? (options.redis.port || 6379) : null;
+  var host   = !socket ? (options.redis.host || &#x27;127.0.0.1&#x27;) : null;
+  var db   = !socket ? (options.redis.db || 0) : null;
+  var client = redis.createClient(socket || port, host, options.redis.options);
+  if( options.redis.auth ) {
+    client.auth(options.redis.auth);
+  }
+  if( db &#x3e;= 0 ){
+    client.select(db);
+  }
+  return client;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.redis.pubsubClient" id="apidoc.element.kue.redis.pubsubClient">
+        function <span class="apidocSignatureSpan">kue.redis.</span>pubsubClient
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">pubsubClient = function () {
+  return exports._pubsub || (exports._pubsub = exports.createClient());
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.kue.redis.reset" id="apidoc.element.kue.redis.reset">
+        function <span class="apidocSignatureSpan">kue.redis.</span>reset
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">reset = function () {
+  exports._client &#x26;&#x26; exports._client.quit();
+  exports._pubsub &#x26;&#x26; exports._pubsub.quit();
+  exports._client = null;
+  exports._pubsub = null;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
